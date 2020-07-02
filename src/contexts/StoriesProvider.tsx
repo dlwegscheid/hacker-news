@@ -1,5 +1,5 @@
 import React, {Context, createContext, useReducer, useEffect} from "react";
-import {useDatabase, useDatabaseListData} from 'reactfire';
+import {getStoryList} from '../services/hackerNewsApi';
 
 const LS_KEY = 'HackerNewsStories';
 
@@ -61,16 +61,18 @@ const initialState =
 const StoriesProvider: React.FC = ({children}) => {
   const [stories, dispatch] = useReducer(reducer, initialState);
 
-  const storyListRef = useDatabase().ref('v0/newstories');
-  const storyIds = useDatabaseListData(storyListRef, {startWithValue: stories.allIds}) as number[];
+  useEffect(() => {
+    const fetchIds = async () => {
+      const storyIds = await getStoryList();
+      dispatch({type: 'newList', newIds: storyIds})
+    };
+
+    fetchIds();
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(LS_KEY, JSON.stringify(stories));
   }, [stories]);
-
-  useEffect(() => {
-    dispatch({type: 'newList', newIds: storyIds})
-  }, [storyIds])
 
   return (
     <StoriesContext.Provider
