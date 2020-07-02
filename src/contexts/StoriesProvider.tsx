@@ -1,26 +1,15 @@
 import React, {Context, createContext, useReducer, useEffect} from "react";
 import {getStoryList} from '../services/hackerNewsApi';
+import {Story} from '../types/story';
 
 const LS_KEY = 'HackerNewsStories';
 
-export interface IStory {
-  by: string;
-  id: number;
-  score: number;
-  descendants: number;
-  kids: number[];
-  time: number;
-  title: string;
-  type: string;
-  url: string;
-}
-
 export interface IStoryData {
-  details: IStory[];
+  details: Story[];
   allIds: number[];
 }
 
-interface IStoriesContext {
+type IStoriesContext = {
   stories: IStoryData;
   dispatch: React.Dispatch<Action>;
 }
@@ -31,9 +20,10 @@ const StoriesContext: Context<IStoriesContext> = createContext(
 
 export type Action =
   | {type: 'newList', newIds: number[]}
-  | {type: 'addStoryDetails', newStory: IStory}
+  | {type: 'addStoryDetails', newStory: Story}
 
 const reducer = (state: IStoryData, action: Action): IStoryData => {
+  console.log(action);
   switch (action.type) {
     case 'newList': {
       return {
