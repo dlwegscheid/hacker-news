@@ -1,12 +1,10 @@
-import React from 'react';
-import {useDatabase, useDatabaseListData} from 'reactfire';
+import React, {useContext} from 'react';
+import {StoriesContext} from './StoriesProvider';
 
 export default function ArticleList() {
-  const storyListRef = useDatabase().ref('v0/newstories');
-
-  const storyIds = useDatabaseListData(storyListRef) as number[];
+  const {stories} = useContext(StoriesContext);
 
   return <ol>
-    {storyIds.map(s => <li key={s}>{s}</li>)}
+    {stories.stories.map(s => <li key={s.id}>{s.id} - {s.title}</li>)}
   </ol>;
 }

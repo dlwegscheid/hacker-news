@@ -1,6 +1,7 @@
 import React, {Suspense} from 'react';
 import {FirebaseAppProvider} from 'reactfire';
 import ArticleList from './ArticleList';
+import {StoriesProvider} from './StoriesProvider';
 
 function App() {
   const firebaseConfig = {
@@ -10,7 +11,9 @@ function App() {
   return (
     <FirebaseAppProvider firebaseConfig={firebaseConfig}>
       <Suspense fallback="loading...">
-        <ArticleList></ArticleList>
+        <StoriesProvider>
+          <ArticleList></ArticleList>
+        </StoriesProvider>
       </Suspense>
     </FirebaseAppProvider>
   );
