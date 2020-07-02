@@ -11,12 +11,10 @@
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
     "@types/react-infinite-scroller": "^1.2.1",
-    "firebase": "^7.15.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-infinite-scroller": "^1.2.4",
     "react-scripts": "3.4.1",
-    "reactfire": "^2.0.3",
     "typescript": "~3.7.2"
   },
   "scripts": {
