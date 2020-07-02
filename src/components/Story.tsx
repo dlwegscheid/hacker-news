@@ -1,10 +1,10 @@
-import React, {useContext} from 'react';
-import {StoriesContext} from '../contexts/StoriesProvider';
+import React from 'react';
+import {StoryModel} from '../types/story';
 
-export default function ArticleList() {
-  const {stories} = useContext(StoriesContext);
+type StoryProps = {
+  story: StoryModel;
+}
 
-  return <ol>
-    {stories.details.map(s => <li key={s.id}>{s.id} - {s.title} - {s.url}</li>)}
-  </ol>;
+export default function Story({story}: StoryProps) {
+  return <li key={story.id}><a href={story.url}>{story.title}</a></li>;
 }
