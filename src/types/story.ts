@@ -1,4 +1,4 @@
-export type Story = {
+export type StoryModel = {
   by: string;
   id: number;
   score: number;
