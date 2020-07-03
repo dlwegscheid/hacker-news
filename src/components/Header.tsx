@@ -17,7 +17,7 @@ export default function Header() {
   return <HeaderNav>
     <h1>
       <HomeLink href="/">
-        David's HackerNews
+        David&apos;s HackerNews
       </HomeLink>
     </h1>
   </HeaderNav>;

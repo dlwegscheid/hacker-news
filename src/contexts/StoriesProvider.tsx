@@ -1,23 +1,23 @@
-import React, {Context, createContext, useReducer, useEffect} from "react";
+import React, {Context, createContext, useReducer, useEffect} from 'react';
 import {getStoryList, getStoryDetails} from '../services/hackerNewsApi';
 import {FullStory, StoryDetails} from '../types';
 import {useInterval} from '../useInterval';
 
 export const LS_KEY = 'HackerNewsStories1';
 
-type IStoriesContext = {
-  stories: FullStory[],
+type StoriesContext = {
+  stories: FullStory[];
   dispatch: React.Dispatch<Action>;
 }
 
-const StoriesContext: Context<IStoriesContext> = createContext(
-  {} as IStoriesContext
+const StoriesContext: Context<StoriesContext> = createContext(
+  {} as StoriesContext
 );
 
 export type Action =
-  | {type: 'newList', newIds: number[]}
-  | {type: 'addStoryDetails', newStory: StoryDetails}
-  | {type: 'removeStory', id: number}
+  | {type: 'newList'; newIds: number[]}
+  | {type: 'addStoryDetails'; newStory: StoryDetails}
+  | {type: 'removeStory'; id: number}
 
 const reducer = (state: FullStory[], action: Action): FullStory[] => {
   console.log(state, action);
@@ -42,11 +42,11 @@ const getNewStories = (dispatch: (action: Action) => void) => {
     const storyIds = await getStoryList();
     dispatch({type: 'newList', newIds: storyIds});
   })();
-}
+};
 
 const initialState = JSON.parse(localStorage.getItem(LS_KEY) as string) || [];
 
-const StoriesProvider: React.FC = ({children}) => {
+const StoriesProvider: React.FC<Props> = ({children}: Props) => {
   const [stories, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
@@ -82,5 +82,9 @@ const StoriesProvider: React.FC = ({children}) => {
     </StoriesContext.Provider>
   );
 };
+
+type Props = {
+  children: React.ReactNode;
+}
 
 export {StoriesProvider, StoriesContext};

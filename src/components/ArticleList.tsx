@@ -1,7 +1,7 @@
 import React, {useContext, useMemo} from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import styled from 'styled-components';
-import {Loading} from '@doist/reactist'
+import {Loading} from '@doist/reactist';
 import {getStoryDetails} from '../services/hackerNewsApi';
 import {StoriesContext, Action} from '../contexts/StoriesProvider';
 import Story from './Story';
@@ -22,7 +22,7 @@ const loadNextStory = (stories: FullStory[], dispatch: React.Dispatch<Action>) =
     const newStory = await getStoryDetails(nextMissingStory.id);
     dispatch(newStory ? {type: 'addStoryDetails', newStory} : {type: 'removeStory', id: nextMissingStory.id});
   }
-}
+};
 
 export default function ArticleList() {
   const {stories, dispatch} = useContext(StoriesContext);
@@ -40,5 +40,5 @@ export default function ArticleList() {
       </InfiniteScroll>
       }
     </ol>
-  </ListWrapper>
+  </ListWrapper>;
 }

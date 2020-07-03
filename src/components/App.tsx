@@ -4,7 +4,6 @@ import Header from './Header';
 import {StoriesProvider} from '../contexts/StoriesProvider';
 
 function App() {
-
   return <>
     <Header />
     <StoriesProvider>
