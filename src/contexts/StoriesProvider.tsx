@@ -1,6 +1,7 @@
 import React, {Context, createContext, useReducer, useEffect} from "react";
-import {getStoryList} from '../services/hackerNewsApi';
+import {getStoryList, getStoryDetails} from '../services/hackerNewsApi';
 import {FullStory, StoryDetails} from '../types';
+import {useInterval} from '../useInterval';
 
 export const LS_KEY = 'HackerNewsStories1';
 
@@ -52,8 +53,22 @@ const StoriesProvider: React.FC = ({children}) => {
     getNewStories(dispatch);
   }, []);
 
+  useInterval(() => {
+    getNewStories(dispatch);
+  }, 60000);
+
   useEffect(() => {
     localStorage.setItem(LS_KEY, JSON.stringify(stories));
+
+    (async () => {
+      for (const story of stories) {
+        if (story.details) {
+          break;
+        }
+        const newStory = await getStoryDetails(story.id);
+        dispatch({type: 'addStoryDetails', newStory});
+      }
+    })();
   }, [stories]);
 
   return (
