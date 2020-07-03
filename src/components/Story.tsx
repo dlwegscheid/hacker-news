@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Time} from '@doist/reactist';
-import {StoryModel} from '../types/story';
+import {StoryDetails} from '../types';
 
 type StoryProps = {
-  story: StoryModel;
+  story: StoryDetails;
 }
 
 const Item = styled.li`
