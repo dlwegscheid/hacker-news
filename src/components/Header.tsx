@@ -5,7 +5,7 @@ const HeaderNav = styled.nav`
   text-align: center;
   background-color: #C0C7CB;
   padding: 1rem 0;
-  border
+  border-bottom: 2px solid #3F82EF;
 `;
 
 const HomeLink = styled.a`
