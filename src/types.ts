@@ -1,4 +1,4 @@
-export type StoryModel = {
+export type StoryDetails = {
   by: string;
   id: number;
   score: number;
@@ -8,4 +8,9 @@ export type StoryModel = {
   title: string;
   type: string;
   url: string;
+}
+
+export type FullStory = {
+  id: number;
+  details?: StoryDetails;
 }

@@ -1,11 +1,11 @@
-import React, {useContext} from 'react';
+import React, {useContext, useMemo} from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
 import styled from 'styled-components';
 import {Loading} from '@doist/reactist'
 import {getStoryDetails} from '../services/hackerNewsApi';
 import {StoriesContext, Action} from '../contexts/StoriesProvider';
 import Story from './Story';
-import {StoryModel} from '../types/story';
+import {FullStory, StoryDetails} from '../types';
 
 const ListWrapper = styled.main`
   background-color: #F5F6F8;
@@ -16,21 +16,24 @@ const LoadingWrapper = styled.div`
   margin: 1rem;
 `;
 
-const loadFunc = (stories: Map<number, StoryModel | undefined>, dispatch: React.Dispatch<Action>) => async (index: number) => {
-  const newStory = await getStoryDetails(Array.from(stories.keys())[index - 1]);
-  dispatch({type: 'addStoryDetails', newStory});
+const loadNextStory = (stories: FullStory[], dispatch: React.Dispatch<Action>) => async (_: number) => {
+  const nextMissingStory = stories.find(s => !s.details);
+  if (nextMissingStory) {
+    const newStory = await getStoryDetails(nextMissingStory.id);
+    dispatch(newStory ? {type: 'addStoryDetails', newStory} : {type: 'removeStory', id: nextMissingStory.id});
+  }
 }
 
 export default function ArticleList() {
   const {stories, dispatch} = useContext(StoriesContext);
-  const details = Array.from(stories.values()).filter(v => v) as StoryModel[];
+  const details = useMemo(() => stories.filter(s => s.details).map(s => s.details) as StoryDetails[], [stories]);
 
   return <ListWrapper>
     <ol>
-      {stories.size > 0 && <InfiniteScroll
+      {stories.length > 0 && <InfiniteScroll
         pageStart={0}
-        loadMore={loadFunc(stories, dispatch)}
-        hasMore={details.length < 500}
+        loadMore={loadNextStory(stories, dispatch)}
+        hasMore={details.length < stories.length}
         loader={<div className="loader" key={0}><LoadingWrapper><Loading /></LoadingWrapper></div>}
       >
         {details.map(s => <Story key={s.id} story={s}></Story>)}
