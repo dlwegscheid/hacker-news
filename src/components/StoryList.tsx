@@ -24,7 +24,7 @@ const loadNextStory = (stories: FullStory[], dispatch: React.Dispatch<Action>) =
   }
 };
 
-export default function ArticleList() {
+export default function StoryList() {
   const {stories, dispatch} = useContext(StoriesContext);
   const details = useMemo(() => stories.filter(s => s.details).map(s => s.details) as StoryDetails[], [stories]);
 
