@@ -10,6 +10,18 @@ export type StoryDetails = {
   url: string;
 }
 
+export const nullStoryDetailsFactory = (override?: Partial<StoryDetails>): StoryDetails => Object.assign({
+  by: '',
+  id: 0,
+  score: 0,
+  descendants: 0,
+  kids: [],
+  time: 0,
+  title: '',
+  type: '',
+  url: ''
+}, override);
+
 export type FullStory = {
   id: number;
   details?: StoryDetails;

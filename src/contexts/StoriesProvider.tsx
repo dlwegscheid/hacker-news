@@ -20,13 +20,12 @@ export type Action =
   | {type: 'removeStory'; id: number}
 
 const reducer = (state: FullStory[], action: Action): FullStory[] => {
-  console.log(state, action);
   switch (action.type) {
     case 'newList': {
-      return state[0]?.id === action.newIds[0] ? state : action.newIds.map(id => ({id, details: state.find(s => s.id === id)?.details}));
+      return state[0]?.id === action.newIds[0] || !action.newIds.length ? state : action.newIds.map(id => ({id, details: state.find(s => s.id === id)?.details}));
     }
     case 'addStoryDetails': {
-      return state.map(s => s.id === action.newStory.id ? {...s, details: action.newStory} : s);
+      return !action.newStory.id ? state : state.map(s => s.id === action.newStory.id ? {...s, details: action.newStory} : s);
     }
     case 'removeStory': {
       return state.filter(s => s.id !== action.id);
@@ -61,12 +60,14 @@ const StoriesProvider: React.FC<Props> = ({children}: Props) => {
     localStorage.setItem(LS_KEY, JSON.stringify(stories));
 
     (async () => {
-      for (const story of stories) {
-        if (story.details) {
-          break;
+      if (stories.some(s => s.details)) {
+        for (const story of stories) {
+          if (story.details) {
+            break;
+          }
+          const newStory = await getStoryDetails(story.id);
+          dispatch({type: 'addStoryDetails', newStory});
         }
-        const newStory = await getStoryDetails(story.id);
-        dispatch({type: 'addStoryDetails', newStory});
       }
     })();
   }, [stories]);
