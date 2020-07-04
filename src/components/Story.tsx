@@ -19,7 +19,7 @@ const Item = styled.li`
   }
 `;
 
-const ArticleLink = styled.a`
+export const ArticleLink = styled.a`
   text-decoration: none;
   color: inherit;
 
