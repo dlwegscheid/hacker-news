@@ -33,9 +33,11 @@ const Info = styled.div`
   justify-content: space-between;
 `;
 
+const createHackerNewsUrl = (id: number) => `https://news.ycombinator.com/item?id=${id}`;
+
 export default function Story({story}: StoryProps) {
   return <Item>
-    <ArticleLink href={story.url}>
+    <ArticleLink href={story.url || createHackerNewsUrl(story.id)}>
       <div>
         {story.title}
         <Info>

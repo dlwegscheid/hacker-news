@@ -22,8 +22,13 @@ describe('Story component', () => {
     expect(wrapper.contains(details.by)).toBe(true);
   });
 
-  it('renders link', () => {
+  it('renders link when given url', () => {
     expect(wrapper.find(ArticleLink).props().href).toBe(details.url);
+  });
+
+  it('renders link when given url', () => {
+    wrapper = shallow(<Story story={{...nullStoryDetailsFactory(details), url: '', id: 100}} />);
+    expect(wrapper.find(ArticleLink).props().href).toBe('https://news.ycombinator.com/item?id=100');
   });
 
   it('renders time', () => {
