@@ -1,3 +1,7 @@
+# Hacker-News
+
+This is a simple app that displays the 500 most recent stories from [HackerNews](https://news.ycombinator.com/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Getting started
